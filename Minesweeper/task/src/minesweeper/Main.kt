@@ -16,9 +16,6 @@ class Minefield(val raw: Int, val column: Int, val numberOfMines: Int = 0) {
         addNumberOfMines()
         hideMines()
         printField()
-
-
-        //var playerCoordinate = MinesCoordinate.toMutableList()
         playerCoordinate = MinesCoordinate
 
         while (playerCoordinate.size != 0) {
@@ -27,18 +24,13 @@ class Minefield(val raw: Int, val column: Int, val numberOfMines: Int = 0) {
             println()
             playersMove[0]--
             playersMove[1]--
-            //println(MinesCoordinate)
-            //println(playersMove)
             if (playersMove in playerCoordinate) playerCoordinate.remove(playersMove)
             else playerCoordinate.add(playersMove)
-
             if (field[playersMove[0]][playersMove[1]] != "*") field[playersMove[0]][playersMove[1]] = "*"
             else field[playersMove[0]][playersMove[1]] = "."
             printField()
         }
         println("Congratulations! You found all the mines!")
-
-
     }
 
     fun addMines() {
@@ -363,11 +355,5 @@ class Minefield(val raw: Int, val column: Int, val numberOfMines: Int = 0) {
 }
 
 fun main() {
-    
-
     val minesweeper = Minefield(9, 9)
-    //println(minesweeper.MinesCoordinate)
-    //minesweeper.addMines()
-    //minesweeper.addNumberOfMines()
-    //for (i in minesweeper.field) println(i.joinToString(""))
 }
