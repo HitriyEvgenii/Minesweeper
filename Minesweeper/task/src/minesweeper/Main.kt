@@ -9,7 +9,8 @@ class Minefield(val raw: Int, val column: Int, val numberOfMines: Int = 0) {
 
     init {
         addMines()
-        addNumberOfMines2()
+        addNumberOfMines()
+        hideMines()
         val word = (1..this.column).toList()
         println(" |${word.joinToString("")}|")
 
@@ -135,7 +136,7 @@ class Minefield(val raw: Int, val column: Int, val numberOfMines: Int = 0) {
             var count = 0
             val raw = coordinate[0]
             val column = coordinate[1]
-            if (raw in 1 until this.raw - 1 && column in 1 until this.column - 1) {
+            /* if (raw in 1 until this.raw - 1 && column in 1 until this.column - 1) {
                 if (this.field[raw - 1][column] == ".") this.field[raw - 1][column] = "1"
                 else if (this.field[raw - 1][column] != "." && this.field[raw - 1][column] != "X") {
                     this.field[raw - 1][column] = (this.field[raw - 1][column].toInt() + 1).toString()
@@ -144,9 +145,185 @@ class Minefield(val raw: Int, val column: Int, val numberOfMines: Int = 0) {
                 else if (this.field[raw - 1][column-1] != "." && this.field[raw - 1][column-1] != "X") {
                     this.field[raw - 1][column-1] = (this.field[raw - 1][column-1].toInt() + 1).toString()
                 }
+                if (this.field[raw - 1][column+1] == ".") this.field[raw - 1][column+1] = "1"
+                else if (this.field[raw - 1][column+1] != "." && this.field[raw - 1][column+1] != "X") {
+                    this.field[raw - 1][column+1] = (this.field[raw - 1][column+1].toInt() + 1).toString()
+                }
+                if (this.field[raw][column+1] == ".") this.field[raw][column+1] = "1"
+                else if (this.field[raw][column+1] != "." && this.field[raw][column+1] != "X") {
+                    this.field[raw][column+1] = (this.field[raw][column+1].toInt() + 1).toString()
+                }
+                if (this.field[raw][column-1] == ".") this.field[raw][column-1] = "1"
+                else if (this.field[raw][column-1] != "." && this.field[raw][column-1] != "X") {
+                    this.field[raw][column-1] = (this.field[raw][column-1].toInt() + 1).toString()
+                }
+                if (this.field[raw + 1][column] == ".") this.field[raw + 1][column] = "1"
+                else if (this.field[raw + 1][column] != "." && this.field[raw + 1][column] != "X") {
+                    this.field[raw + 1][column] = (this.field[raw + 1][column].toInt() + 1).toString()
+                }
+                if (this.field[raw + 1][column-1] == ".") this.field[raw + 1][column-1] = "1"
+                else if (this.field[raw + 1][column-1] != "." && this.field[raw + 1][column-1] != "X") {
+                    this.field[raw + 1][column-1] = (this.field[raw + 1][column-1].toInt() + 1).toString()
+                }
+                if (this.field[raw + 1][column+1] == ".") this.field[raw + 1][column+1] = "1"
+                else if (this.field[raw + 1][column+1] != "." && this.field[raw + 1][column+1] != "X") {
+                    this.field[raw + 1][column+1] = (this.field[raw + 1][column+1].toInt() + 1).toString()
+                }
+
+            } */
+            if (raw == 0 && column in 1 until this.column - 1) {
+                if (this.field[raw][column+1] == ".") this.field[raw][column+1] = "1"
+                else if (this.field[raw][column+1] != "X") {
+                    this.field[raw][column+1] = (this.field[raw][column+1].toInt() + 1).toString()
+                }
+                if (this.field[raw][column-1] == ".") this.field[raw][column-1] = "1"
+                else if (this.field[raw][column-1] != "X") {
+                    this.field[raw][column-1] = (this.field[raw][column-1].toInt() + 1).toString()
+                }
+                if (this.field[raw + 1][column] == ".") this.field[raw + 1][column] = "1"
+                else if (this.field[raw + 1][column] != "X") {
+                    this.field[raw + 1][column] = (this.field[raw + 1][column].toInt() + 1).toString()
+                }
+                if (this.field[raw + 1][column-1] == ".") this.field[raw + 1][column-1] = "1"
+                else if (this.field[raw + 1][column-1] != "X") {
+                    this.field[raw + 1][column-1] = (this.field[raw + 1][column-1].toInt() + 1).toString()
+                }
+                if (this.field[raw + 1][column+1] == ".") this.field[raw + 1][column+1] = "1"
+                else if (this.field[raw + 1][column+1] != "X") {
+                    this.field[raw + 1][column+1] = (this.field[raw + 1][column+1].toInt() + 1).toString()
+                }
+            }
+            else if (raw == this.raw-1 && column in 1 until this.column - 1) {
+                if (this.field[raw - 1][column] == ".") this.field[raw - 1][column] = "1"
+                else if (this.field[raw - 1][column] != "X") {
+                    this.field[raw - 1][column] = (this.field[raw - 1][column].toInt() + 1).toString()
+                }
+                if (this.field[raw - 1][column-1] == ".") this.field[raw - 1][column-1] = "1"
+                else if (this.field[raw - 1][column-1] != "X") {
+                    this.field[raw - 1][column-1] = (this.field[raw - 1][column-1].toInt() + 1).toString()
+                }
+                if (this.field[raw - 1][column+1] == ".") this.field[raw - 1][column+1] = "1"
+                else if (this.field[raw - 1][column+1] != "X") {
+                    this.field[raw - 1][column+1] = (this.field[raw - 1][column+1].toInt() + 1).toString()
+                }
+                if (this.field[raw][column+1] == ".") this.field[raw][column+1] = "1"
+                else if (this.field[raw][column+1] != "X") {
+                    this.field[raw][column+1] = (this.field[raw][column+1].toInt() + 1).toString()
+                }
+                if (this.field[raw][column-1] == ".") this.field[raw][column-1] = "1"
+                else if (this.field[raw][column-1] != "X") {
+                    this.field[raw][column-1] = (this.field[raw][column-1].toInt() + 1).toString()
+                }
+            }
+            else if (column == 0 && raw in 1 until this.raw - 1) {
+                if (this.field[raw-1][column] == ".") this.field[raw-1][column] = "1"
+                else if (this.field[raw-1][column] != "X") {
+                    this.field[raw-1][column] = (this.field[raw-1][column].toInt() + 1).toString()
+                }
+                if (this.field[raw-1][column+1] == ".") this.field[raw-1][column+1] = "1"
+                else if (this.field[raw-1][column+1] != "X") {
+                    this.field[raw-1][column+1] = (this.field[raw-1][column+1].toInt() + 1).toString()
+                }
+                if (this.field[raw][column+1] == ".") this.field[raw][column+1] = "1"
+                else if (this.field[raw][column+1] != "X") {
+                    this.field[raw][column+1] = (this.field[raw][column+1].toInt() + 1).toString()
+                }
+                if (this.field[raw+1][column+1] == ".") this.field[raw+1][column+1] = "1"
+                else if (this.field[raw+1][column+1] != "X") {
+                    this.field[raw+1][column+1] = (this.field[raw+1][column+1].toInt() + 1).toString()
+                }
+                if (this.field[raw+1][column] == ".") this.field[raw+1][column] = "1"
+                else if (this.field[raw+1][column] != "X") {
+                    this.field[raw+1][column] = (this.field[raw+1][column].toInt() + 1).toString()
+                }
+            }
+            else if (column == this.column-1 && raw in 1 until this.raw - 1) {
+                if (this.field[raw-1][column] == ".") this.field[raw-1][column] = "1"
+                else if (this.field[raw-1][column] != "X") {
+                    this.field[raw-1][column] = (this.field[raw-1][column].toInt() + 1).toString()
+                }
+                if (this.field[raw-1][column-1] == ".") this.field[raw-1][column-1] = "1"
+                else if (this.field[raw-1][column-1] != "X") {
+                    this.field[raw-1][column-1] = (this.field[raw-1][column-1].toInt() + 1).toString()
+                }
+                if (this.field[raw][column-1] == ".") this.field[raw][column-1] = "1"
+                else if (this.field[raw][column-1] != "X") {
+                    this.field[raw][column-1] = (this.field[raw][column-1].toInt() + 1).toString()
+                }
+                if (this.field[raw+1][column-1] == ".") this.field[raw+1][column-1] = "1"
+                else if (this.field[raw+1][column-1] != "X") {
+                    this.field[raw+1][column-1] = (this.field[raw+1][column-1].toInt() + 1).toString()
+                }
+                if (this.field[raw+1][column] == ".") this.field[raw+1][column] = "1"
+                else if (this.field[raw+1][column] != "X") {
+                    this.field[raw+1][column] = (this.field[raw+1][column].toInt() + 1).toString()
+                }
+            }
+            else if (raw == 0 && column == 0) {
+                if (this.field[raw][column+1] == ".") this.field[raw][column+1] = "1"
+                else if (this.field[raw][column+1] != "X") {
+                    this.field[raw][column+1] = (this.field[raw][column+1].toInt() + 1).toString()
+                }
+                if (this.field[raw+1][column+1] == ".") this.field[raw+1][column+1] = "1"
+                else if (this.field[raw+1][column+1] != "X") {
+                    this.field[raw+1][column+1] = (this.field[raw+1][column+1].toInt() + 1).toString()
+                }
+                if (this.field[raw+1][column] == ".") this.field[raw+1][column] = "1"
+                else if (this.field[raw+1][column] != "X") {
+                    this.field[raw+1][column] = (this.field[raw+1][column].toInt() + 1).toString()
+                }
+
+            }
+            else if (raw == 0 && column == this.column-1) {
+                if (this.field[raw][column-1] == ".") this.field[raw][column-1] = "1"
+                else if (this.field[raw][column-1] != "X") {
+                    this.field[raw][column-1] = (this.field[raw][column-1].toInt() + 1).toString()
+                }
+                if (this.field[raw+1][column-1] == ".") this.field[raw+1][column-1] = "1"
+                else if (this.field[raw+1][column-1] != "X") {
+                    this.field[raw+1][column-1] = (this.field[raw+1][column-1].toInt() + 1).toString()
+                }
+                if (this.field[raw+1][column] == ".") this.field[raw+1][column] = "1"
+                else if (this.field[raw+1][column] != "X") {
+                    this.field[raw+1][column] = (this.field[raw+1][column].toInt() + 1).toString()
+                }
+
+            }
+            else if (raw == this.raw-1 && column == 0) {
+                if (this.field[raw][column+1] == ".") this.field[raw][column+1] = "1"
+                else if (this.field[raw][column+1] != "X") {
+                    this.field[raw][column+1] = (this.field[raw][column+1].toInt() + 1).toString()
+                }
+                if (this.field[raw-1][column+1] == ".") this.field[raw-1][column+1] = "1"
+                else if (this.field[raw-1][column+1] != "X") {
+                    this.field[raw-1][column+1] = (this.field[raw-1][column+1].toInt() + 1).toString()
+                }
+                if (this.field[raw-1][column] == ".") this.field[raw-1][column] = "1"
+                else if (this.field[raw-1][column] != "X") {
+                    this.field[raw-1][column] = (this.field[raw-1][column].toInt() + 1).toString()
+                }
+
+            }
+            else if (raw == this.raw-1 && column == this.column-1) {
+                if (this.field[raw][column-1] == ".") this.field[raw][column-1] = "1"
+                else if (this.field[raw][column-1] != "X") {
+                    this.field[raw][column-1] = (this.field[raw][column-1].toInt() + 1).toString()
+                }
+                if (this.field[raw-1][column-1] == ".") this.field[raw-1][column-1] = "1"
+                else if (this.field[raw-1][column-1] != "X") {
+                    this.field[raw-1][column-1] = (this.field[raw-1][column-1].toInt() + 1).toString()
+                }
+                if (this.field[raw-1][column] == ".") this.field[raw-1][column] = "1"
+                else if (this.field[raw-1][column] != "X") {
+                    this.field[raw-1][column] = (this.field[raw-1][column].toInt() + 1).toString()
+                }
 
             }
         }
+    }
+
+    fun hideMines() {
+        for (coordinate in MinesCoordinate) field[coordinate[0]][coordinate[1]] = "."
     }
 
 }
