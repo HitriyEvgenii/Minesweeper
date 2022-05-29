@@ -6,23 +6,34 @@ class Minefield(val raw: Int, val column: Int, val numberOfMines: Int = 0) {
         MutableList<String>(this.column) { "." }
     }
     val MinesCoordinate = emptyList<MutableList<Int>>().toMutableList()
+    var playerCoordinate = emptyList<MutableList<Int>>().toMutableList()
 
     init {
         addMines()
         addNumberOfMines()
         hideMines()
-        val word = (1..this.column).toList()
-        println(" |${word.joinToString("")}|")
 
-        print("-|")
-        for (i in 1..this.column) print("-")
-        print("|")
-        println()
-        var count = 1
-        for (i in this.field) {
-            println("${count++}|${i.joinToString("")}|")
-            //print(i.joinToString(""))
+        printField()
+
+
+        //var playerCoordinate = MinesCoordinate.toMutableList()
+        playerCoordinate = MinesCoordinate
+
+        while (playerCoordinate.size != 0) {
+            println("Set/delete mines marks (x and y coordinates):")
+            var playersMove = readln().split(" ").map { it.toInt() }.toMutableList()
+            playersMove[0]--
+            playersMove[1]--
+            //println(MinesCoordinate)
+            //println(playersMove)
+            if (playersMove in MinesCoordinate) playerCoordinate.remove(playersMove)
+            else playerCoordinate.add(playersMove)
+            field[playersMove[0]][playersMove[1]] = "X"
+            printField()
         }
+        println("Congratulations! You found all the mines!")
+
+
     }
 
     fun addMines() {
@@ -324,6 +335,24 @@ class Minefield(val raw: Int, val column: Int, val numberOfMines: Int = 0) {
 
     fun hideMines() {
         for (coordinate in MinesCoordinate) field[coordinate[0]][coordinate[1]] = "."
+    }
+
+    fun printField() {
+        val word = (1..this.column).toList()
+        println(" |${word.joinToString("")}|")
+
+        print("-|")
+        for (i in 1..this.column) print("-")
+        print("|")
+        println()
+        var count = 1
+        for (i in this.field) {
+            println("${count++}|${i.joinToString("")}|")
+        }
+        print("-|")
+        for (i in 1..this.column) print("-")
+        print("|")
+        println()
     }
 
 }
