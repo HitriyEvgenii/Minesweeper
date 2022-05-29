@@ -5,6 +5,8 @@ class Minefield(val raw: Int, val column: Int, val numberOfMines: Int = 0) {
     val field = MutableList<MutableList<String>>(this.raw) {
         MutableList<String>(this.column) {"."}
         }
+    val MinesCoordinate = emptyList<MutableList<Int>>().toMutableList()
+
     init {
         addMines()
         addNumberOfMines()
@@ -30,8 +32,9 @@ class Minefield(val raw: Int, val column: Int, val numberOfMines: Int = 0) {
             var column = (0..this.column-1).random()
             if (field[raw][column] =="X") count--
             field[raw][column] = "X"
+            MinesCoordinate.add(mutableListOf(raw, column))
         }
-        
+
     }
 
     fun addNumberOfMines() {
@@ -136,6 +139,7 @@ fun main() {
     println("How many mines do you want on the field? ")
     val mines = readLine()!!.toInt()
     val minesweeper = Minefield(9, 9, mines)
+    //println(minesweeper.MinesCoordinate)
     //minesweeper.addMines()
     //minesweeper.addNumberOfMines()
     //for (i in minesweeper.field) println(i.joinToString(""))
