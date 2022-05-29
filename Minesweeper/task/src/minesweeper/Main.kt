@@ -3,16 +3,16 @@ import java.util.Random
 
 class Minefield(val raw: Int, val column: Int, val numberOfMines: Int = 0) {
     val field = MutableList<MutableList<String>>(this.raw) {
-        MutableList<String>(this.column) {"."}
-        }
+        MutableList<String>(this.column) { "." }
+    }
     val MinesCoordinate = emptyList<MutableList<Int>>().toMutableList()
 
     init {
         addMines()
-        addNumberOfMines()
+        addNumberOfMines2()
         val word = (1..this.column).toList()
         println(" |${word.joinToString("")}|")
-           
+
         print("-|")
         for (i in 1..this.column) print("-")
         print("|")
@@ -23,14 +23,15 @@ class Minefield(val raw: Int, val column: Int, val numberOfMines: Int = 0) {
             //print(i.joinToString(""))
         }
     }
+
     fun addMines() {
         var count = 0
-        while (count != this.numberOfMines){
+        while (count != this.numberOfMines) {
             count++
             //var raw = Random().nextInt(0, this.raw)
-            var raw = (0..this.raw-1).random()
-            var column = (0..this.column-1).random()
-            if (field[raw][column] =="X") count--
+            var raw = (0..this.raw - 1).random()
+            var column = (0..this.column - 1).random()
+            if (field[raw][column] == "X") count--
             field[raw][column] = "X"
             MinesCoordinate.add(mutableListOf(raw, column))
         }
@@ -38,101 +39,117 @@ class Minefield(val raw: Int, val column: Int, val numberOfMines: Int = 0) {
     }
 
     fun addNumberOfMines() {
-        for (raw in 0..this.raw-1) {
-            for (column in 0..this.column-1) {
+        for (raw in 0..this.raw - 1) {
+            for (column in 0..this.column - 1) {
                 if (this.field[raw][column] == "X") continue
                 else {
                     var count = 0
-                    if (raw in 1 until this.raw-1) {
+                    if (raw in 1 until this.raw - 1) {
                         when {
-                            column in 1 until this.raw-1 -> {
-                                if (this.field[raw-1][column-1] == "X") count++
-                                if (this.field[raw-1][column] == "X") count++
-                                if (this.field[raw-1][column+1] == "X") count++
-                                if (this.field[raw][column-1] == "X") count++
-                                if (this.field[raw][column+1] == "X") count++
-                                if (this.field[raw+1][column-1] == "X") count++
-                                if (this.field[raw+1][column] == "X") count++
-                                if (this.field[raw+1][column+1] == "X") count++
+                            column in 1 until this.raw - 1 -> {
+                                if (this.field[raw - 1][column - 1] == "X") count++
+                                if (this.field[raw - 1][column] == "X") count++
+                                if (this.field[raw - 1][column + 1] == "X") count++
+                                if (this.field[raw][column - 1] == "X") count++
+                                if (this.field[raw][column + 1] == "X") count++
+                                if (this.field[raw + 1][column - 1] == "X") count++
+                                if (this.field[raw + 1][column] == "X") count++
+                                if (this.field[raw + 1][column + 1] == "X") count++
                                 if (count != 0) this.field[raw][column] = count.toString()
                             }
                             column == 0 -> {
-                                if (this.field[raw-1][column] == "X") count++
-                                if (this.field[raw-1][column+1] == "X") count++
-                                if (this.field[raw][column+1] == "X") count++
-                                if (this.field[raw+1][column] == "X") count++
-                                if (this.field[raw+1][column+1] == "X") count++
+                                if (this.field[raw - 1][column] == "X") count++
+                                if (this.field[raw - 1][column + 1] == "X") count++
+                                if (this.field[raw][column + 1] == "X") count++
+                                if (this.field[raw + 1][column] == "X") count++
+                                if (this.field[raw + 1][column + 1] == "X") count++
                                 if (count != 0) this.field[raw][column] = count.toString()
                             }
-                            column == this.column-1 -> {
-                                if (this.field[raw-1][column] == "X") count++
-                                if (this.field[raw-1][column-1] == "X") count++
-                                if (this.field[raw][column-1] == "X") count++
-                                if (this.field[raw+1][column] == "X") count++
-                                if (this.field[raw+1][column-1] == "X") count++
+                            column == this.column - 1 -> {
+                                if (this.field[raw - 1][column] == "X") count++
+                                if (this.field[raw - 1][column - 1] == "X") count++
+                                if (this.field[raw][column - 1] == "X") count++
+                                if (this.field[raw + 1][column] == "X") count++
+                                if (this.field[raw + 1][column - 1] == "X") count++
                                 if (count != 0) this.field[raw][column] = count.toString()
                             }
 
                         }
 
-                    }
-                    else if (raw == 0) {
+                    } else if (raw == 0) {
                         when {
-                            column in 1 until this.column-1 -> {
-                                if (this.field[raw][column-1] == "X") count++
-                                if (this.field[raw][column+1] == "X") count++
-                                if (this.field[raw+1][column-1] == "X") count++
-                                if (this.field[raw+1][column] == "X") count++
-                                if (this.field[raw+1][column+1] == "X") count++
+                            column in 1 until this.column - 1 -> {
+                                if (this.field[raw][column - 1] == "X") count++
+                                if (this.field[raw][column + 1] == "X") count++
+                                if (this.field[raw + 1][column - 1] == "X") count++
+                                if (this.field[raw + 1][column] == "X") count++
+                                if (this.field[raw + 1][column + 1] == "X") count++
                                 if (count != 0) this.field[raw][column] = count.toString()
                             }
                             column == 0 -> {
-                                if (this.field[raw][column+1] == "X") count++
-                                if (this.field[raw+1][column] == "X") count++
-                                if (this.field[raw+1][column+1] == "X") count++
+                                if (this.field[raw][column + 1] == "X") count++
+                                if (this.field[raw + 1][column] == "X") count++
+                                if (this.field[raw + 1][column + 1] == "X") count++
                                 if (count != 0) this.field[raw][column] = count.toString()
                             }
-                            column == this.column-1 -> {
-                                if (this.field[raw][column-1] == "X") count++
-                                if (this.field[raw+1][column] == "X") count++
-                                if (this.field[raw+1][column-1] == "X") count++
+                            column == this.column - 1 -> {
+                                if (this.field[raw][column - 1] == "X") count++
+                                if (this.field[raw + 1][column] == "X") count++
+                                if (this.field[raw + 1][column - 1] == "X") count++
                                 if (count != 0) this.field[raw][column] = count.toString()
                             }
                         }
 
-                    }
-                    else if (raw == this.raw-1) {
+                    } else if (raw == this.raw - 1) {
                         when {
-                            column in 1 until this.column-1 -> {
-                                if (this.field[raw][column-1] == "X") count++
-                                if (this.field[raw][column+1] == "X") count++
-                                if (this.field[raw-1][column-1] == "X") count++
-                                if (this.field[raw-1][column] == "X") count++
-                                if (this.field[raw-1][column+1] == "X") count++
+                            column in 1 until this.column - 1 -> {
+                                if (this.field[raw][column - 1] == "X") count++
+                                if (this.field[raw][column + 1] == "X") count++
+                                if (this.field[raw - 1][column - 1] == "X") count++
+                                if (this.field[raw - 1][column] == "X") count++
+                                if (this.field[raw - 1][column + 1] == "X") count++
                                 if (count != 0) this.field[raw][column] = count.toString()
                             }
                             column == 0 -> {
-                                if (this.field[raw][column+1] == "X") count++
-                                if (this.field[raw-1][column] == "X") count++
-                                if (this.field[raw-1][column+1] == "X") count++
+                                if (this.field[raw][column + 1] == "X") count++
+                                if (this.field[raw - 1][column] == "X") count++
+                                if (this.field[raw - 1][column + 1] == "X") count++
                                 if (count != 0) this.field[raw][column] = count.toString()
                             }
-                            column == this.column-1 -> {
-                                if (this.field[raw][column-1] == "X") count++
-                                if (this.field[raw-1][column] == "X") count++
-                                if (this.field[raw-1][column-1] == "X") count++
+                            column == this.column - 1 -> {
+                                if (this.field[raw][column - 1] == "X") count++
+                                if (this.field[raw - 1][column] == "X") count++
+                                if (this.field[raw - 1][column - 1] == "X") count++
                                 if (count != 0) this.field[raw][column] = count.toString()
                             }
                         }
                     }
-                    }
-
                 }
+
             }
         }
-}
-    
+    }
 
+    fun addNumberOfMines2() {
+        for (coordinate in MinesCoordinate) {
+            var count = 0
+            val raw = coordinate[0]
+            val column = coordinate[1]
+            if (raw in 1 until this.raw - 1 && column in 1 until this.column - 1) {
+                if (this.field[raw - 1][column] == ".") this.field[raw - 1][column] = "1"
+                else if (this.field[raw - 1][column] != "." && this.field[raw - 1][column] != "X") {
+                    this.field[raw - 1][column] = (this.field[raw - 1][column].toInt() + 1).toString()
+                }
+                if (this.field[raw - 1][column-1] == ".") this.field[raw - 1][column-1] = "1"
+                else if (this.field[raw - 1][column-1] != "." && this.field[raw - 1][column-1] != "X") {
+                    this.field[raw - 1][column-1] = (this.field[raw - 1][column-1].toInt() + 1).toString()
+                }
+
+            }
+        }
+    }
+
+}
 
 fun main() {
     
