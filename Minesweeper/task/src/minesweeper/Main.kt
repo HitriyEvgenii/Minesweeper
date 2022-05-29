@@ -8,7 +8,18 @@ class Minefield(val raw: Int, val column: Int, val numberOfMines: Int = 0) {
     init {
         addMines()
         addNumberOfMines()
-        for (i in this.field) println(i.joinToString(""))
+        val word = (1..this.column).toList()
+        println(" |${word.joinToString("")}|")
+           
+        print("-|")
+        for (i in 1..this.column) print("-")
+        print("|")
+        println()
+        var count = 1
+        for (i in this.field) {
+            println("${count++}|${i.joinToString("")}|")
+            //print(i.joinToString(""))
+        }
     }
     fun addMines() {
         var count = 0
