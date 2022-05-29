@@ -9,10 +9,12 @@ class Minefield(val raw: Int, val column: Int, val numberOfMines: Int = 0) {
     var playerCoordinate = emptyList<MutableList<Int>>().toMutableList()
 
     init {
+        println("How many mines do you want on the field? ")
+        val mines = readLine()!!.toInt()
+        println()
         addMines()
         addNumberOfMines()
         hideMines()
-
         printField()
 
 
@@ -22,13 +24,16 @@ class Minefield(val raw: Int, val column: Int, val numberOfMines: Int = 0) {
         while (playerCoordinate.size != 0) {
             println("Set/delete mines marks (x and y coordinates):")
             var playersMove = readln().split(" ").map { it.toInt() }.toMutableList()
+            println()
             playersMove[0]--
             playersMove[1]--
             //println(MinesCoordinate)
             //println(playersMove)
-            if (playersMove in MinesCoordinate) playerCoordinate.remove(playersMove)
+            if (playersMove in playerCoordinate) playerCoordinate.remove(playersMove)
             else playerCoordinate.add(playersMove)
-            field[playersMove[0]][playersMove[1]] = "X"
+
+            if (field[playersMove[0]][playersMove[1]] != "*") field[playersMove[0]][playersMove[1]] = "*"
+            else field[playersMove[0]][playersMove[1]] = "."
             printField()
         }
         println("Congratulations! You found all the mines!")
@@ -339,19 +344,19 @@ class Minefield(val raw: Int, val column: Int, val numberOfMines: Int = 0) {
 
     fun printField() {
         val word = (1..this.column).toList()
-        println(" |${word.joinToString("")}|")
+        println(" │${word.joinToString("")}│")
 
-        print("-|")
-        for (i in 1..this.column) print("-")
-        print("|")
+        print("—│")
+        for (i in 1..this.column) print("—")
+        print("│")
         println()
         var count = 1
         for (i in this.field) {
-            println("${count++}|${i.joinToString("")}|")
+            println("${count++}│${i.joinToString("")}│")
         }
-        print("-|")
-        for (i in 1..this.column) print("-")
-        print("|")
+        print("—│")
+        for (i in 1..this.column) print("—")
+        print("│")
         println()
     }
 
@@ -359,9 +364,8 @@ class Minefield(val raw: Int, val column: Int, val numberOfMines: Int = 0) {
 
 fun main() {
     
-    println("How many mines do you want on the field? ")
-    val mines = readLine()!!.toInt()
-    val minesweeper = Minefield(9, 9, mines)
+
+    val minesweeper = Minefield(9, 9)
     //println(minesweeper.MinesCoordinate)
     //minesweeper.addMines()
     //minesweeper.addNumberOfMines()
