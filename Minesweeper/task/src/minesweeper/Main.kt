@@ -1,5 +1,5 @@
-package minesweeper
-import java.util.Random
+package minesweepe
+// import java.util.Random
 
 class Minefield(val raw: Int, val column: Int, var numberOfMines: Int = 0) {
     
@@ -20,14 +20,11 @@ class Minefield(val raw: Int, val column: Int, var numberOfMines: Int = 0) {
         addNumberOfMines()
         //hideMines()
         printField(playersField)
-
-
-        //var playerCoordinate = MinesCoordinate.toMutableList()
         playerCoordinate = MinesCoordinate
-
+    }
+    init {
         while (playerCoordinate.size != 0) {
             println("Set/unset mines marks or claim a cell as free:")
-            //var playersMove = readln().split(" ").map { it.isDigit() -> it.toInt() }.toMutableList()
             val playersMove = readln().split(" ")
             println()
             
@@ -42,8 +39,6 @@ class Minefield(val raw: Int, val column: Int, var numberOfMines: Int = 0) {
             playersAction(action, yRaw, xColumn)
         }
         println("Congratulations! You found all the mines!")
-
-
     }
 
     fun addMines() {
@@ -51,8 +46,8 @@ class Minefield(val raw: Int, val column: Int, var numberOfMines: Int = 0) {
         while (count != this.numberOfMines) {
             count++
             //var raw = Random().nextInt(0, this.raw)
-            var raw = (0..this.raw - 1).random()
-            var column = (0..this.column - 1).random()
+            val raw = (0..this.raw - 1).random()
+            val column = (0..this.column - 1).random()
             if (field[column][raw] == "X") count--
             field[column][raw] = "X"
             MinesCoordinate.add(mutableListOf(column, raw))
@@ -371,16 +366,16 @@ class Minefield(val raw: Int, val column: Int, var numberOfMines: Int = 0) {
                 if (playersField[xColumn][yRaw] == ".") playersField[xColumn][yRaw] = "*"
                 else playersField[xColumn][yRaw] = "."
                 printField(playersField)
-                printField(field)
-                println(playerCoordinate)
             }
             "free" -> {
-                if (field[yRaw][xColumn] == "X") {
+                if (field[xColumn][yRaw] == "X" && action == "free") {
                     for (i in MinesCoordinate) playersField[i[0]][i[1]] = "X"
                     printField(playersField)
+                    playerCoordinate.clear()
                     println("You stepped on a mine and failed!")
+                    this.exit()
                 }
-                if (field[yRaw][xColumn] != ".") {
+                else if (field[yRaw][xColumn] != ".") {
                     playersField[yRaw][xColumn] = field[yRaw][xColumn]
                     //printField(field)
                     printField(playersField)
@@ -424,6 +419,11 @@ class Minefield(val raw: Int, val column: Int, var numberOfMines: Int = 0) {
                 }  
             }
         }
+
+    }
+
+    fun exit() {
+        return
     }
 
 }
