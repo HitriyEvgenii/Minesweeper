@@ -1,4 +1,4 @@
-package minesweepe
+package minesweeper
 // import java.util.Random
 
 class Minefield(val raw: Int, val column: Int, var numberOfMines: Int = 0) {
@@ -11,6 +11,7 @@ class Minefield(val raw: Int, val column: Int, var numberOfMines: Int = 0) {
     val playersField = MutableList<MutableList<String>>(this.raw) {
         MutableList<String>(this.column) { "." }
     }
+    var faile = false
 
     init {
         println("How many mines do you want on the field? ")
@@ -21,8 +22,7 @@ class Minefield(val raw: Int, val column: Int, var numberOfMines: Int = 0) {
         //hideMines()
         printField(playersField)
         playerCoordinate = MinesCoordinate
-    }
-    init {
+
         while (playerCoordinate.size != 0) {
             println("Set/unset mines marks or claim a cell as free:")
             val playersMove = readln().split(" ")
@@ -37,8 +37,11 @@ class Minefield(val raw: Int, val column: Int, var numberOfMines: Int = 0) {
             else if (playersMoveXY !in playerCoordinate && action == "mine") playerCoordinate.add(playersMoveXY)
 
             playersAction(action, yRaw, xColumn)
+
+
         }
-        println("Congratulations! You found all the mines!")
+        if (faile == true) println("You stepped on a mine and failed!")
+        else println("Congratulations! You found all the mines!")
     }
 
     fun addMines() {
@@ -372,8 +375,7 @@ class Minefield(val raw: Int, val column: Int, var numberOfMines: Int = 0) {
                     for (i in MinesCoordinate) playersField[i[0]][i[1]] = "X"
                     printField(playersField)
                     playerCoordinate.clear()
-                    println("You stepped on a mine and failed!")
-                    this.exit()
+                    faile = true
                 }
                 else if (field[yRaw][xColumn] != ".") {
                     playersField[yRaw][xColumn] = field[yRaw][xColumn]
