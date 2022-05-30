@@ -384,6 +384,7 @@ class Minefield(val raw: Int, val column: Int, var numberOfMines: Int = 0) {
                 }
                 else if (field[yRaw][xColumn] == ".") {
                     floodfill(field, xColumn, yRaw)
+                    printField(playersField)
                 }
             }
         }
@@ -401,6 +402,7 @@ class Minefield(val raw: Int, val column: Int, var numberOfMines: Int = 0) {
 
         }
         else playersField[x][y] = matrix[x][y]
+
     }
 
 
