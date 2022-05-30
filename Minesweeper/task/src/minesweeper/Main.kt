@@ -394,13 +394,13 @@ class Minefield(val raw: Int, val column: Int, var numberOfMines: Int = 0) {
         if (matrix[x][y] == ".") {
             matrix[x][y] = "/"
             playersField[x][y] = "/"
-            printField(playersField)
             if(x > 0) floodfill(matrix,x-1, y)
             if (x < matrix[y].size -1) floodfill(matrix,x+1,y)
             if (y > 0) floodfill(matrix,x,y-1)
             if (y < matrix.size - 1) floodfill(matrix,x,y+1)
 
         }
+        else playersField[x][y] = matrix[x][y]
     }
 
 
