@@ -1,36 +1,54 @@
 package minesweeper
 import java.util.Random
 
-class Minefield(val raw: Int, val column: Int, val numberOfMines: Int = 0) {
+class Minefield(val raw: Int, val column: Int, var numberOfMines: Int = 0) {
+    
     val field = MutableList<MutableList<String>>(this.raw) {
         MutableList<String>(this.column) { "." }
     }
     val MinesCoordinate = emptyList<MutableList<Int>>().toMutableList()
     var playerCoordinate = emptyList<MutableList<Int>>().toMutableList()
+    val playersField = MutableList<MutableList<String>>(this.raw) {
+        MutableList<String>(this.column) { "." }
+    }
 
     init {
         println("How many mines do you want on the field? ")
-        val mines = readLine()!!.toInt()
+        this.numberOfMines = readLine()!!.toInt()
         println()
         addMines()
         addNumberOfMines()
-        hideMines()
-        printField()
+        //hideMines()
+        printField(playersField)
+
+
+        //var playerCoordinate = MinesCoordinate.toMutableList()
         playerCoordinate = MinesCoordinate
 
         while (playerCoordinate.size != 0) {
-            println("Set/delete mines marks (x and y coordinates):")
-            var playersMove = readln().split(" ").map { it.toInt() }.toMutableList()
+            println("Set/unset mines marks or claim a cell as free:")
+            //var playersMove = readln().split(" ").map { it.isDigit() -> it.toInt() }.toMutableList()
+            val playersMove = readln().split(" ")
             println()
-            playersMove[0]--
-            playersMove[1]--
-            if (playersMove in playerCoordinate) playerCoordinate.remove(playersMove)
-            else playerCoordinate.add(playersMove)
-            if (field[playersMove[0]][playersMove[1]] != "*") field[playersMove[0]][playersMove[1]] = "*"
-            else field[playersMove[0]][playersMove[1]] = "."
-            printField()
+            
+            val y = playersMove[0].toInt() - 1
+            val x = playersMove[1].toInt() - 1
+            val action = playersMove[2]
+            
+            val playersMoveXY = mutableListOf(x, y)
+            //println(MinesCoordinate)
+            //println(playersMove)
+            if (playersMoveXY in playerCoordinate && action == "mine") playerCoordinate.remove(playersMoveXY)
+            else playerCoordinate.add(playersMoveXY)
+
+            //if (field[x][y] != "*") field[x][y] = "*"
+            //else field[x][y] = "."
+            //printField(playersField)
+            playersAction(action, x, y)
         }
         println("Congratulations! You found all the mines!")
+
+
     }
 
     fun addMines() {
@@ -334,7 +352,7 @@ class Minefield(val raw: Int, val column: Int, val numberOfMines: Int = 0) {
         for (coordinate in MinesCoordinate) field[coordinate[0]][coordinate[1]] = "."
     }
 
-    fun printField() {
+    fun printField(fiel: MutableList<MutableList<String>>) {
         val word = (1..this.column).toList()
         println(" │${word.joinToString("")}│")
 
@@ -343,7 +361,7 @@ class Minefield(val raw: Int, val column: Int, val numberOfMines: Int = 0) {
         print("│")
         println()
         var count = 1
-        for (i in this.field) {
+        for (i in fiel) {
             println("${count++}│${i.joinToString("")}│")
         }
         print("—│")
@@ -351,9 +369,68 @@ class Minefield(val raw: Int, val column: Int, val numberOfMines: Int = 0) {
         print("│")
         println()
     }
+    
+    fun playersAction(action: String, x: Int, y: Int) {
+        when (action) {
+            "mine" -> {
+                if (playersField[x][y] == ".") playersField[x][y] = "*"
+                else playersField[x][y] = "."
+                printField(playersField)
+            }
+            "free" -> {
+                if (field[x][y] == "X") {
+                    for (i in MinesCoordinate) playersField[i[0]][i[1]] = "X"
+                    printField(playersField)
+                    println("You stepped on a mine and failed!")
+                }
+                else if (field[x][y] != ".") {
+                    playersField[x][y] = field[x][y]
+                    //printField(field)
+                    printField(playersField)
+                }
+                else if (field[x][y] == ".") {
+                    playersField[x][y] = "/"
+                    var col = y
+                    var raw = x
+                    for (i in col..8) {
+                        col = i
+                        if (col in 0..8) {
+                            while(field[raw++][col] == "." && raw in 0..8) {
+                                playersField[raw][col] = "/" 
+                            }
+                            raw = x                    
+                            while(field[raw--][col] == "." && raw in 0..8) {
+                                playersField[raw][col] = "/" 
+                            }
+                        }
+                        
+                    }
+                    
+                    for (i in col downTo 0) {
+                        col = i
+                        if (col in 0..8) {
+                            while(field[raw++][col] == "." && raw in 0..8) {
+                                playersField[raw][col] = "/" 
+                            }
+                            raw = x                    
+                            while(field[raw--][col] == "." && raw in 0..8) {
+                                playersField[raw][col] = "/" 
+                            }
+                        }
+                        
+                    }
+                    
+                    printField(field)
+                    printField(playersField)
+                }  
+            }
+        }
+    }
 
 }
 
 fun main() {
+    
     val minesweeper = Minefield(9, 9)
+    
 }
