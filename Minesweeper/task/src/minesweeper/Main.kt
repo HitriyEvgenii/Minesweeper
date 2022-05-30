@@ -383,50 +383,26 @@ class Minefield(val raw: Int, val column: Int, var numberOfMines: Int = 0) {
                     printField(playersField)
                 }
                 else if (field[yRaw][xColumn] == ".") {
-                    playersField[yRaw][xColumn] = "/"
-                    var col = xColumn
-                    var raw = yRaw
-
-                    for (i in col..8) {
-                        col = i
-                        while(raw in 0..7 && field[raw++][col] == ".") {
-                            playersField[raw][col] = "/"
-                            //printField(field)
-                            //printField(playersField)
-                        }
-                        raw = xColumn
-                        while(raw in 1..8 && field[raw--][col] == ".") {
-                            playersField[raw][col] = "/"
-                            //printField(field)
-                            //printField(playersField)
-                        }
-                    }
-                    col = yRaw
-                    for (i in col downTo 0) {
-                        col = i
-                        if (col in 0..8) {
-                            while(field[raw++][col] == "." && raw in 0..7) {
-                                playersField[raw][col] = "/" 
-                            }
-                            raw = xColumn
-                            while(field[raw--][col] == "." && raw in 1..8) {
-                                playersField[raw][col] = "/" 
-                            }
-                        }
-                        
-                    }
-                    
-                    printField(field)
-                    printField(playersField)
-                }  
+                    floodfill(field, xColumn, yRaw)
+                }
             }
         }
 
     }
 
-    fun exit() {
-        return
+    fun floodfill(matrix: MutableList<MutableList<String>>, x: Int, y: Int) {
+        if (matrix[x][y] == ".") {
+            matrix[x][y] = "/"
+            playersField[x][y] = "/"
+            printField(playersField)
+            if(x > 0) floodfill(matrix,x-1, y)
+            if (x < matrix[y].size -1) floodfill(matrix,x+1,y)
+            if (y > 0) floodfill(matrix,x,y-1)
+            if (y < matrix.size - 1) floodfill(matrix,x,y+1)
+
+        }
     }
+
 
 }
 
