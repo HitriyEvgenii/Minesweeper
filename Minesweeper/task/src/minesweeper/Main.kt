@@ -31,20 +31,15 @@ class Minefield(val raw: Int, val column: Int, var numberOfMines: Int = 0) {
             val playersMove = readln().split(" ")
             println()
             
-            val x = playersMove[0].toInt() - 1
-            val y = playersMove[1].toInt() - 1
+            val xColumn = playersMove[0].toInt() - 1
+            val  yRaw = playersMove[1].toInt() - 1
             val action = playersMove[2]
             
-            val playersMoveXY = mutableListOf(x, y)
-            //println(MinesCoordinate)
-            //println(playersMove)
+            val playersMoveXY = mutableListOf(yRaw, xColumn)
             if (playersMoveXY in playerCoordinate && action == "mine") playerCoordinate.remove(playersMoveXY)
             else if (playersMoveXY !in playerCoordinate && action == "mine") playerCoordinate.add(playersMoveXY)
 
-            //if (field[x][y] != "*") field[x][y] = "*"
-            //else field[x][y] = "."
-            //printField(playersField)
-            playersAction(action, x, y)
+            playersAction(action, yRaw, xColumn)
         }
         println("Congratulations! You found all the mines!")
 
@@ -58,8 +53,8 @@ class Minefield(val raw: Int, val column: Int, var numberOfMines: Int = 0) {
             //var raw = Random().nextInt(0, this.raw)
             var raw = (0..this.raw - 1).random()
             var column = (0..this.column - 1).random()
-            if (field[raw][column] == "X") count--
-            field[raw][column] = "X"
+            if (field[column][raw] == "X") count--
+            field[column][raw] = "X"
             MinesCoordinate.add(mutableListOf(column, raw))
         }
 
@@ -370,52 +365,53 @@ class Minefield(val raw: Int, val column: Int, var numberOfMines: Int = 0) {
         println()
     }
     
-    fun playersAction(action: String, x: Int, y: Int) {
+    fun playersAction(action: String, xColumn: Int, yRaw: Int) {
         when (action) {
             "mine" -> {
-                if (playersField[x][y] == ".") playersField[x][y] = "*"
-                else playersField[x][y] = "."
+                if (playersField[xColumn][yRaw] == ".") playersField[xColumn][yRaw] = "*"
+                else playersField[xColumn][yRaw] = "."
                 printField(playersField)
+                printField(field)
                 println(playerCoordinate)
             }
             "free" -> {
-                if (field[x][y] == "X") {
+                if (field[yRaw][xColumn] == "X") {
                     for (i in MinesCoordinate) playersField[i[0]][i[1]] = "X"
                     printField(playersField)
                     println("You stepped on a mine and failed!")
                 }
-                else if (field[x][y] != ".") {
-                    playersField[x][y] = field[x][y]
+                if (field[yRaw][xColumn] != ".") {
+                    playersField[yRaw][xColumn] = field[yRaw][xColumn]
                     //printField(field)
                     printField(playersField)
                 }
-                else if (field[x][y] == ".") {
-                    playersField[x][y] = "/"
-                    var col = y
-                    var raw = x
+                else if (field[yRaw][xColumn] == ".") {
+                    playersField[yRaw][xColumn] = "/"
+                    var col = xColumn
+                    var raw = yRaw
 
                     for (i in col..8) {
                         col = i
                         while(raw in 0..7 && field[raw++][col] == ".") {
                             playersField[raw][col] = "/"
-                            printField(field)
-                            printField(playersField)
+                            //printField(field)
+                            //printField(playersField)
                         }
-                        raw = x
+                        raw = xColumn
                         while(raw in 1..8 && field[raw--][col] == ".") {
                             playersField[raw][col] = "/"
-                            printField(field)
-                            printField(playersField)
+                            //printField(field)
+                            //printField(playersField)
                         }
                     }
-
+                    col = yRaw
                     for (i in col downTo 0) {
                         col = i
                         if (col in 0..8) {
                             while(field[raw++][col] == "." && raw in 0..7) {
                                 playersField[raw][col] = "/" 
                             }
-                            raw = x                    
+                            raw = xColumn
                             while(field[raw--][col] == "." && raw in 1..8) {
                                 playersField[raw][col] = "/" 
                             }
