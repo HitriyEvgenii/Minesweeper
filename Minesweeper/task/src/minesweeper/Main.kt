@@ -2,7 +2,7 @@ package minesweeper
 // import java.util.Random
 
 class Minefield(val raw: Int, val column: Int, var numberOfMines: Int = 0) {
-    
+
     val field = MutableList<MutableList<String>>(this.raw) {
         MutableList<String>(this.column) { "." }
     }
@@ -27,11 +27,11 @@ class Minefield(val raw: Int, val column: Int, var numberOfMines: Int = 0) {
             println("Set/unset mines marks or claim a cell as free:")
             val playersMove = readln().split(" ")
             println()
-            
+
             val xColumn = playersMove[0].toInt() - 1
             val  yRaw = playersMove[1].toInt() - 1
             val action = playersMove[2]
-            
+
             val playersMoveXY = mutableListOf(yRaw, xColumn)
             if (playersMoveXY in playerCoordinate && action == "mine") playerCoordinate.remove(playersMoveXY)
             else if (playersMoveXY !in playerCoordinate && action == "mine") playerCoordinate.add(playersMoveXY)
@@ -51,9 +51,9 @@ class Minefield(val raw: Int, val column: Int, var numberOfMines: Int = 0) {
             //var raw = Random().nextInt(0, this.raw)
             val raw = (0..this.raw - 1).random()
             val column = (0..this.column - 1).random()
-            if (field[column][raw] == "X") count--
-            field[column][raw] = "X"
-            MinesCoordinate.add(mutableListOf(column, raw))
+            if (field[raw][column] == "X") count--
+            field[raw][column] = "X"
+            MinesCoordinate.add(mutableListOf(raw, column))
         }
 
     }
@@ -150,196 +150,6 @@ class Minefield(val raw: Int, val column: Int, var numberOfMines: Int = 0) {
         }
     }
 
-    fun addNumberOfMines2() {
-        for (coordinate in MinesCoordinate) {
-            var count = 0
-            val raw = coordinate[0]
-            val column = coordinate[1]
-            /* if (raw in 1 until this.raw - 1 && column in 1 until this.column - 1) {
-                if (this.field[raw - 1][column] == ".") this.field[raw - 1][column] = "1"
-                else if (this.field[raw - 1][column] != "." && this.field[raw - 1][column] != "X") {
-                    this.field[raw - 1][column] = (this.field[raw - 1][column].toInt() + 1).toString()
-                }
-                if (this.field[raw - 1][column-1] == ".") this.field[raw - 1][column-1] = "1"
-                else if (this.field[raw - 1][column-1] != "." && this.field[raw - 1][column-1] != "X") {
-                    this.field[raw - 1][column-1] = (this.field[raw - 1][column-1].toInt() + 1).toString()
-                }
-                if (this.field[raw - 1][column+1] == ".") this.field[raw - 1][column+1] = "1"
-                else if (this.field[raw - 1][column+1] != "." && this.field[raw - 1][column+1] != "X") {
-                    this.field[raw - 1][column+1] = (this.field[raw - 1][column+1].toInt() + 1).toString()
-                }
-                if (this.field[raw][column+1] == ".") this.field[raw][column+1] = "1"
-                else if (this.field[raw][column+1] != "." && this.field[raw][column+1] != "X") {
-                    this.field[raw][column+1] = (this.field[raw][column+1].toInt() + 1).toString()
-                }
-                if (this.field[raw][column-1] == ".") this.field[raw][column-1] = "1"
-                else if (this.field[raw][column-1] != "." && this.field[raw][column-1] != "X") {
-                    this.field[raw][column-1] = (this.field[raw][column-1].toInt() + 1).toString()
-                }
-                if (this.field[raw + 1][column] == ".") this.field[raw + 1][column] = "1"
-                else if (this.field[raw + 1][column] != "." && this.field[raw + 1][column] != "X") {
-                    this.field[raw + 1][column] = (this.field[raw + 1][column].toInt() + 1).toString()
-                }
-                if (this.field[raw + 1][column-1] == ".") this.field[raw + 1][column-1] = "1"
-                else if (this.field[raw + 1][column-1] != "." && this.field[raw + 1][column-1] != "X") {
-                    this.field[raw + 1][column-1] = (this.field[raw + 1][column-1].toInt() + 1).toString()
-                }
-                if (this.field[raw + 1][column+1] == ".") this.field[raw + 1][column+1] = "1"
-                else if (this.field[raw + 1][column+1] != "." && this.field[raw + 1][column+1] != "X") {
-                    this.field[raw + 1][column+1] = (this.field[raw + 1][column+1].toInt() + 1).toString()
-                }
-
-            } */
-            if (raw == 0 && column in 1 until this.column - 1) {
-                if (this.field[raw][column+1] == ".") this.field[raw][column+1] = "1"
-                else if (this.field[raw][column+1] != "X") {
-                    this.field[raw][column+1] = (this.field[raw][column+1].toInt() + 1).toString()
-                }
-                if (this.field[raw][column-1] == ".") this.field[raw][column-1] = "1"
-                else if (this.field[raw][column-1] != "X") {
-                    this.field[raw][column-1] = (this.field[raw][column-1].toInt() + 1).toString()
-                }
-                if (this.field[raw + 1][column] == ".") this.field[raw + 1][column] = "1"
-                else if (this.field[raw + 1][column] != "X") {
-                    this.field[raw + 1][column] = (this.field[raw + 1][column].toInt() + 1).toString()
-                }
-                if (this.field[raw + 1][column-1] == ".") this.field[raw + 1][column-1] = "1"
-                else if (this.field[raw + 1][column-1] != "X") {
-                    this.field[raw + 1][column-1] = (this.field[raw + 1][column-1].toInt() + 1).toString()
-                }
-                if (this.field[raw + 1][column+1] == ".") this.field[raw + 1][column+1] = "1"
-                else if (this.field[raw + 1][column+1] != "X") {
-                    this.field[raw + 1][column+1] = (this.field[raw + 1][column+1].toInt() + 1).toString()
-                }
-            }
-            else if (raw == this.raw-1 && column in 1 until this.column - 1) {
-                if (this.field[raw - 1][column] == ".") this.field[raw - 1][column] = "1"
-                else if (this.field[raw - 1][column] != "X") {
-                    this.field[raw - 1][column] = (this.field[raw - 1][column].toInt() + 1).toString()
-                }
-                if (this.field[raw - 1][column-1] == ".") this.field[raw - 1][column-1] = "1"
-                else if (this.field[raw - 1][column-1] != "X") {
-                    this.field[raw - 1][column-1] = (this.field[raw - 1][column-1].toInt() + 1).toString()
-                }
-                if (this.field[raw - 1][column+1] == ".") this.field[raw - 1][column+1] = "1"
-                else if (this.field[raw - 1][column+1] != "X") {
-                    this.field[raw - 1][column+1] = (this.field[raw - 1][column+1].toInt() + 1).toString()
-                }
-                if (this.field[raw][column+1] == ".") this.field[raw][column+1] = "1"
-                else if (this.field[raw][column+1] != "X") {
-                    this.field[raw][column+1] = (this.field[raw][column+1].toInt() + 1).toString()
-                }
-                if (this.field[raw][column-1] == ".") this.field[raw][column-1] = "1"
-                else if (this.field[raw][column-1] != "X") {
-                    this.field[raw][column-1] = (this.field[raw][column-1].toInt() + 1).toString()
-                }
-            }
-            else if (column == 0 && raw in 1 until this.raw - 1) {
-                if (this.field[raw-1][column] == ".") this.field[raw-1][column] = "1"
-                else if (this.field[raw-1][column] != "X") {
-                    this.field[raw-1][column] = (this.field[raw-1][column].toInt() + 1).toString()
-                }
-                if (this.field[raw-1][column+1] == ".") this.field[raw-1][column+1] = "1"
-                else if (this.field[raw-1][column+1] != "X") {
-                    this.field[raw-1][column+1] = (this.field[raw-1][column+1].toInt() + 1).toString()
-                }
-                if (this.field[raw][column+1] == ".") this.field[raw][column+1] = "1"
-                else if (this.field[raw][column+1] != "X") {
-                    this.field[raw][column+1] = (this.field[raw][column+1].toInt() + 1).toString()
-                }
-                if (this.field[raw+1][column+1] == ".") this.field[raw+1][column+1] = "1"
-                else if (this.field[raw+1][column+1] != "X") {
-                    this.field[raw+1][column+1] = (this.field[raw+1][column+1].toInt() + 1).toString()
-                }
-                if (this.field[raw+1][column] == ".") this.field[raw+1][column] = "1"
-                else if (this.field[raw+1][column] != "X") {
-                    this.field[raw+1][column] = (this.field[raw+1][column].toInt() + 1).toString()
-                }
-            }
-            else if (column == this.column-1 && raw in 1 until this.raw - 1) {
-                if (this.field[raw-1][column] == ".") this.field[raw-1][column] = "1"
-                else if (this.field[raw-1][column] != "X") {
-                    this.field[raw-1][column] = (this.field[raw-1][column].toInt() + 1).toString()
-                }
-                if (this.field[raw-1][column-1] == ".") this.field[raw-1][column-1] = "1"
-                else if (this.field[raw-1][column-1] != "X") {
-                    this.field[raw-1][column-1] = (this.field[raw-1][column-1].toInt() + 1).toString()
-                }
-                if (this.field[raw][column-1] == ".") this.field[raw][column-1] = "1"
-                else if (this.field[raw][column-1] != "X") {
-                    this.field[raw][column-1] = (this.field[raw][column-1].toInt() + 1).toString()
-                }
-                if (this.field[raw+1][column-1] == ".") this.field[raw+1][column-1] = "1"
-                else if (this.field[raw+1][column-1] != "X") {
-                    this.field[raw+1][column-1] = (this.field[raw+1][column-1].toInt() + 1).toString()
-                }
-                if (this.field[raw+1][column] == ".") this.field[raw+1][column] = "1"
-                else if (this.field[raw+1][column] != "X") {
-                    this.field[raw+1][column] = (this.field[raw+1][column].toInt() + 1).toString()
-                }
-            }
-            else if (raw == 0 && column == 0) {
-                if (this.field[raw][column+1] == ".") this.field[raw][column+1] = "1"
-                else if (this.field[raw][column+1] != "X") {
-                    this.field[raw][column+1] = (this.field[raw][column+1].toInt() + 1).toString()
-                }
-                if (this.field[raw+1][column+1] == ".") this.field[raw+1][column+1] = "1"
-                else if (this.field[raw+1][column+1] != "X") {
-                    this.field[raw+1][column+1] = (this.field[raw+1][column+1].toInt() + 1).toString()
-                }
-                if (this.field[raw+1][column] == ".") this.field[raw+1][column] = "1"
-                else if (this.field[raw+1][column] != "X") {
-                    this.field[raw+1][column] = (this.field[raw+1][column].toInt() + 1).toString()
-                }
-
-            }
-            else if (raw == 0 && column == this.column-1) {
-                if (this.field[raw][column-1] == ".") this.field[raw][column-1] = "1"
-                else if (this.field[raw][column-1] != "X") {
-                    this.field[raw][column-1] = (this.field[raw][column-1].toInt() + 1).toString()
-                }
-                if (this.field[raw+1][column-1] == ".") this.field[raw+1][column-1] = "1"
-                else if (this.field[raw+1][column-1] != "X") {
-                    this.field[raw+1][column-1] = (this.field[raw+1][column-1].toInt() + 1).toString()
-                }
-                if (this.field[raw+1][column] == ".") this.field[raw+1][column] = "1"
-                else if (this.field[raw+1][column] != "X") {
-                    this.field[raw+1][column] = (this.field[raw+1][column].toInt() + 1).toString()
-                }
-
-            }
-            else if (raw == this.raw-1 && column == 0) {
-                if (this.field[raw][column+1] == ".") this.field[raw][column+1] = "1"
-                else if (this.field[raw][column+1] != "X") {
-                    this.field[raw][column+1] = (this.field[raw][column+1].toInt() + 1).toString()
-                }
-                if (this.field[raw-1][column+1] == ".") this.field[raw-1][column+1] = "1"
-                else if (this.field[raw-1][column+1] != "X") {
-                    this.field[raw-1][column+1] = (this.field[raw-1][column+1].toInt() + 1).toString()
-                }
-                if (this.field[raw-1][column] == ".") this.field[raw-1][column] = "1"
-                else if (this.field[raw-1][column] != "X") {
-                    this.field[raw-1][column] = (this.field[raw-1][column].toInt() + 1).toString()
-                }
-
-            }
-            else if (raw == this.raw-1 && column == this.column-1) {
-                if (this.field[raw][column-1] == ".") this.field[raw][column-1] = "1"
-                else if (this.field[raw][column-1] != "X") {
-                    this.field[raw][column-1] = (this.field[raw][column-1].toInt() + 1).toString()
-                }
-                if (this.field[raw-1][column-1] == ".") this.field[raw-1][column-1] = "1"
-                else if (this.field[raw-1][column-1] != "X") {
-                    this.field[raw-1][column-1] = (this.field[raw-1][column-1].toInt() + 1).toString()
-                }
-                if (this.field[raw-1][column] == ".") this.field[raw-1][column] = "1"
-                else if (this.field[raw-1][column] != "X") {
-                    this.field[raw-1][column] = (this.field[raw-1][column].toInt() + 1).toString()
-                }
-
-            }
-        }
-    }
 
     fun hideMines() {
         for (coordinate in MinesCoordinate) field[coordinate[0]][coordinate[1]] = "."
@@ -362,16 +172,21 @@ class Minefield(val raw: Int, val column: Int, var numberOfMines: Int = 0) {
         print("│")
         println()
     }
-    
-    fun playersAction(action: String, xColumn: Int, yRaw: Int) {
+
+    fun playersAction(action: String, yRaw: Int, xColumn: Int) {
         when (action) {
             "mine" -> {
-                if (playersField[xColumn][yRaw] == ".") playersField[xColumn][yRaw] = "*"
-                else playersField[xColumn][yRaw] = "."
+                if (playersField[yRaw][xColumn] == ".") {
+                    playersField[yRaw][xColumn] = "*"
+                }
+
+                else {
+                    playersField[yRaw][xColumn] = "."
+                }
                 printField(playersField)
             }
             "free" -> {
-                if (field[xColumn][yRaw] == "X" && action == "free") {
+                if (field[yRaw][xColumn] == "X") {
                     for (i in MinesCoordinate) playersField[i[0]][i[1]] = "X"
                     printField(playersField)
                     playerCoordinate.clear()
@@ -379,11 +194,10 @@ class Minefield(val raw: Int, val column: Int, var numberOfMines: Int = 0) {
                 }
                 else if (field[yRaw][xColumn] != ".") {
                     playersField[yRaw][xColumn] = field[yRaw][xColumn]
-                    //printField(field)
                     printField(playersField)
                 }
                 else if (field[yRaw][xColumn] == ".") {
-                    floodfill(field, xColumn, yRaw)
+                    floodfill(field, yRaw, xColumn)
                     printField(playersField)
                 }
             }
@@ -396,20 +210,22 @@ class Minefield(val raw: Int, val column: Int, var numberOfMines: Int = 0) {
             matrix[x][y] = "/"
             playersField[x][y] = "/"
             if(x > 0) floodfill(matrix,x-1, y)
+            if(x > 0 && y > 0) floodfill(matrix,x-1, y-1) // 1
+            if (x < matrix[y].size -1 && y < matrix.size - 1) floodfill(matrix,x+1,y+1) //2
+            if (x > 0 && y < matrix.size - 1) floodfill(matrix,x-1,y+1) //3
+            if (x < matrix[y].size -1 && y > 0) floodfill(matrix,x+1,y-1) //2
             if (x < matrix[y].size -1) floodfill(matrix,x+1,y)
             if (y > 0) floodfill(matrix,x,y-1)
             if (y < matrix.size - 1) floodfill(matrix,x,y+1)
-
         }
         else playersField[x][y] = matrix[x][y]
 
     }
 
-
 }
 
 fun main() {
-    
+
     val minesweeper = Minefield(9, 9)
-    
+
 }
